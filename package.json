@@ -1,0 +1,19 @@
+{
+  "name": "curve-store",
+  "version": "1.0.0",
+  "description": "Redux-inspired store for dealing with continuous values",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathisonian/curve-store.git"
+  },
+  "author": "Matthew Conlen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mathisonian/curve-store/issues"
+  },
+  "homepage": "https://github.com/mathisonian/curve-store#readme"
+}
