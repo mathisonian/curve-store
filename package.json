@@ -1,6 +1,6 @@
 {
   "name": "curve-store",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Redux-inspired store for dealing with continuous values",
   "main": "index.js",
   "scripts": {
@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mathisonian/curve-store/issues"
   },
-  "homepage": "https://github.com/mathisonian/curve-store#readme"
+  "homepage": "https://github.com/mathisonian/curve-store#readme",
+  "dependencies": {
+    "lodash.sortedindexby": "^4.5.1"
+  }
 }
