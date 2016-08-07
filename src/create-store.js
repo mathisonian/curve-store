@@ -1,32 +1,34 @@
 import { setAsLastPoint } from './utils';
 
-class Store {
-  constructor (samplerObj) {
-    this.samplers = samplerObj;
-  }
+export default (samplers) => {
+  const state = {};
 
-  state = {}
-
-  set (setObj) {
+  const set = (setObj) => {
     const { time, values } = setObj;
     Object.keys(values).forEach((key) => {
       const val = values[key];
-      if (!this.state.hasOwnProperty(key)) {
-        this.state[key] = [];
+      if (!state.hasOwnProperty(key)) {
+        state[key] = [];
       }
-      setAsLastPoint(this.state[key], t, val);
+      setAsLastPoint(state[key], time, val);
     });
-  }
+  };
 
-  sample (t) {
+  const sample = (time) => {
     const sample = {};
-    Object.keys(this.samplers).forEach((samplerName) => {
-      sample[samplerName] = this.samplers[samplerName](t, this.state);
+    Object.keys(samplers).forEach((samplerName) => {
+      sample[samplerName] = samplers[samplerName](time, state);
     });
     return sample;
-  }
-}
+  };
 
-export default = (samplerObj) => {
-  return new Store(samplerObj);
-}
+  const getState = () => {
+    return Object.assign({}, state);
+  };
+
+  return {
+    set,
+    sample,
+    getState
+  };
+};
