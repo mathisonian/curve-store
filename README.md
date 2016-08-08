@@ -6,17 +6,18 @@
 
 ```js
 import { createStore } from 'curve-store';
-import { linear } from 'curve-store/samplers';
+import { linear, derivative } from 'curve-store/samplers';
 
 const store = createStore({
-  myKey: linear('myKey')
+  myKey: linear('myKey'),
+  dMyKey: derivative('myKey')
 });
 
 store.set(0, { myKey: 0 });
 store.set(1, { myKey: 1 });
 
 store.sample(0.25);
-// --> { myKey: 0.25 }
+// --> { myKey: 0.25, dMyKey: 1.0 }
 
 ```
 
