@@ -9,15 +9,15 @@ import { createStore } from 'curve-store';
 import { linear, derivative } from 'curve-store/samplers';
 
 const store = createStore({
-  myKey: linear('myKey'),
-  dMyKey: derivative('myKey')
+  x: linear('x'),
+  dx: derivative('dx')
 });
 
-store.set(0, { myKey: 0 });
-store.set(1, { myKey: 1 });
+store.set(0, { x: 0 });
+store.set(1, { x: 1 });
 
 store.sample(0.25);
-// --> { myKey: 0.25, dMyKey: 1.0 }
+// --> { x: 0.25, dx: 1.0 }
 
 ```
 
