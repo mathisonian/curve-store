@@ -3,8 +3,7 @@ import { setAsLastPoint } from './utils';
 export default (samplers) => {
   const state = {};
 
-  const set = (setObj) => {
-    const { time, values } = setObj;
+  const set = (time, values) => {
     Object.keys(values).forEach((key) => {
       const val = values[key];
       if (!state.hasOwnProperty(key)) {

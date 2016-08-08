@@ -1,29 +1,36 @@
+# curve-store
+
+## Example
 
 ```js
-const sampler = {
-  position: (t, state) => {
-    const nextPosition = state.position.getPointAfter(t);
-    const prevPosition = state.position.getPointBefore(t);
+import { createStore } from 'curve-store';
+import { linear } from 'curve-store/interpolators';
 
-    return [currentX, currentY];
-  },
-
-  velocity: (t, state) => {
-    const nextPosition = state.position.getPointAfter(t);
-    const prevPosition = state.position.getPointBefore(t);
-
-    return calculatedVelocity;
-  }
-};
-
-const store = createStore(sampler);
-
-store.set({
-  time: now() + 1/2 second,
-  state: {
-    position: [x, y]
-  }
+const store = createStore({
+  myKey: linear('myKey')
 });
 
-store.sample(t);
+store.set(0, { myKey: 0 });
+store.set(1, { myKey: 1 });
+
+let sample = store.sample(0.25);
+expect(sample).toEqual({ myKey: 0.25 });
+
+sample = store.sample(0.5);
+expect(sample).toEqual({ myKey: 0.5 });
+
+sample = store.sample(0.75);
+expect(sample).toEqual({ myKey: 0.75 });
 ```
+
+
+## Installation
+
+```
+$ npm install --save curve-store
+```
+
+
+## LICENSE
+
+MIT
