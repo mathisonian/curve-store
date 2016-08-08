@@ -13,12 +13,21 @@ export default (samplers) => {
     });
   };
 
-  const sample = (time) => {
-    const sample = {};
+  const sample = (time, keys) => {
+    const ret = {};
+
+    if (typeof keys === 'string') {
+      return samplers[keys](time, state);
+    }
+
+    const checkKeys = Array.isArray(keys);
+
     Object.keys(samplers).forEach((samplerName) => {
-      sample[samplerName] = samplers[samplerName](time, state);
+      if (!checkKeys || keys.indexOf(samplerName)) {
+        ret[samplerName] = samplers[samplerName](time, state, sample);
+      }
     });
-    return sample;
+    return ret;
   };
 
   const getState = () => {

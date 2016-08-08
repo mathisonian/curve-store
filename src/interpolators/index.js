@@ -17,6 +17,18 @@ const linear = (name) => {
   };
 };
 
+const derivative = (name, delta) => {
+  return (t, state, sample) => {
+    const delta = delta || 0.0001;
+
+    const x1 = sample(t - delta, name);
+    const x2 = sample(t, name);
+
+    return (x2 - x1) / delta;
+  };
+};
+
 export {
-  linear
+  linear,
+  derivative
 };
