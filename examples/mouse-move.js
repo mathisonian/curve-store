@@ -6,7 +6,6 @@ import raf from 'raf';
 
 // Boilerplate Setup
 const size = 100;
-let time = 0;
 document.body.style.padding = 0;
 document.body.style.margin = 0;
 const width = window.innerWidth;
@@ -20,6 +19,7 @@ const context = canvas.getContext('2d');
 
 
 // The start of the interesting part
+let time = 0;
 const store = createStore({
   x: linear('x'),
   y: linear('y'),
