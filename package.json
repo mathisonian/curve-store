@@ -4,6 +4,7 @@
   "description": "Redux-inspired store for dealing with continuous values",
   "main": "src/index.js",
   "scripts": {
+    "example": "budo examples/graphs.js --live -o -- -t [ babelify --presets [ es2015 ] ]",
     "test": "semistandard && mocha --compilers js:babel-core/register"
   },
   "repository": {
@@ -21,8 +22,12 @@
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",
+    "babelify": "^7.3.0",
+    "budo": "^8.3.0",
+    "d3-selection": "^1.0.2",
     "expect": "^1.20.2",
     "mocha": "^3.0.1",
+    "raf": "^3.2.0",
     "semistandard": "^8.0.0"
   }
 }

@@ -9,6 +9,10 @@ const linear = (name) => {
       return after.value;
     }
 
+    if (after === null) {
+      return before.value;
+    }
+
     return before.value + (t - before.time) * (after.value - before.value) / (after.time - before.time);
   };
 };
