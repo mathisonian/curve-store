@@ -1,7 +1,7 @@
 // Import libraries
 import { createStore } from '../src';
 import { getPointAfter, getPointBefore } from '../src/utils';
-import { linear, derivative } from '../src/interpolators';
+import { linear, derivative } from '../src/samplers';
 import raf from 'raf';
 
 // Boilerplate Setup

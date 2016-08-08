@@ -6,7 +6,7 @@
 
 ```js
 import { createStore } from 'curve-store';
-import { linear } from 'curve-store/interpolators';
+import { linear } from 'curve-store/samplers';
 
 const store = createStore({
   myKey: linear('myKey')

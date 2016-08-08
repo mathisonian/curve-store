@@ -3,7 +3,7 @@
 import expect from 'expect';
 import { createStore } from '../src';
 import { getPointBefore, getPointAfter } from '../src/utils';
-import { linear } from '../src/interpolators';
+import { linear } from '../src/samplers';
 
 describe('curve-store tests', () => {
   it('should create a new store', () => {
