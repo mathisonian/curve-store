@@ -46,28 +46,26 @@ describe('curve-store tests', () => {
     store.set({ time: 1, values: { myKey: 1 } });
 
     const state = store.getState();
-    expect(getPointAfter(state.myKey, 0.5)).toEqual({
-      time: 1,
-      value: 1
+    expect(getPointBefore(state.myKey, 0.5)).toEqual({
+      time: 0,
+      value: 0
     });
-
   });
 
   it('should get point after correctly', () => {
     const store = createStore();
 
     store.set({ time: 0, values: { myKey: 0 } });
-
     store.set({ time: 1, values: { myKey: 1 } });
 
     const state = store.getState();
-    export(getPointAfter(state.myKey, 0.5)).toEqual({
+    expect(getPointAfter(state.myKey, 0.5)).toEqual({
       time: 1,
       value: 1
     });
   });
 
-  it('should sample values correctly', () => {
+  it('should sample values correctly between points', () => {
     const store = createStore({
       myKey: (t, state) => {
         const before = getPointBefore(state.myKey, t);
@@ -79,7 +77,37 @@ describe('curve-store tests', () => {
     store.set({ time: 0, values: { myKey: 0 } });
     store.set({ time: 1, values: { myKey: 1 } });
 
-    const sample = store.sample(0.5);
-    expect(sample).toEqual(0.5);
+    let sample = store.sample(0.25);
+    expect(sample).toEqual({ myKey: 0.25 });
+
+    sample = store.sample(0.5);
+    expect(sample).toEqual({ myKey: 0.5 });
+
+    sample = store.sample(0.75);
+    expect(sample).toEqual({ myKey: 0.75 });
+  });
+
+  it('should sample values correctly at points', () => {
+    const store = createStore({
+      myKey: (t, state) => {
+        let before = getPointBefore(state.myKey, t);
+        let after = getPointAfter(state.myKey, t);
+
+        if (before === null) {
+          return after.value;
+        }
+
+        return before.value + (t - before.time) * (after.value - before.value) / (after.time - before.time);
+      }
+    });
+
+    store.set({ time: 0, values: { myKey: 0 } });
+    store.set({ time: 1, values: { myKey: 1 } });
+
+    let sample = store.sample(0);
+    expect(sample).toEqual({ myKey: 0 });
+
+    sample = store.sample(1);
+    expect(sample).toEqual({ myKey: 1 });
   });
 });
