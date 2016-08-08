@@ -29,7 +29,7 @@ import { getPointBefore, getPointAfter } from 'create-store/utils';
 
 const store = createStore({
   myKey: (t, state) => {
-    const before = getPointAfter(state.myKey, t);
+    const before = getPointBefore(state.myKey, t);
     // { time: 0, value: 0 }
     const after = getPointAfter(state.myKey, t);
     // { time: 1, value: 1}
