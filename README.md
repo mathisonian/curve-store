@@ -10,7 +10,7 @@ import { linear, derivative } from 'curve-store/samplers';
 
 const store = createStore({
   x: linear('x'),
-  dx: derivative('dx')
+  dx: derivative('x')
 });
 
 store.set(0, { x: 0 });
