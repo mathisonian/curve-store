@@ -2,8 +2,10 @@
 
 import expect from 'expect';
 import { createStore } from '../src';
-import { getPointBefore, getPointAfter } from '../src/utils';
-import { linear } from '../src/samplers';
+import { getPointBefore, getPointAfter, snap } from '../src/utils';
+import { linear, derivative, integral } from '../src/samplers';
+
+const epsilon = 0.00001;
 
 describe('curve-store tests', () => {
   it('should create a new store', () => {
@@ -97,5 +99,59 @@ describe('curve-store tests', () => {
 
     sample = store.sample(1);
     expect(sample).toEqual({ myKey: 1 });
+  });
+
+  it('should get derivative correctly', () => {
+    const store = createStore({
+      d: derivative('myKey')
+    });
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    let sample = store.sample(0.5);
+    expect(Math.abs(sample.d - 1)).toBeLessThan(epsilon);
+  });
+
+  it('should get the second derivative correctly', () => {
+    const store = createStore({
+      d: derivative(derivative('myKey'))
+    });
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    let sample = store.sample(0.5);
+    expect(sample).toEqual({ d: 0 });
+  });
+
+  it('should snap to a value correctly', () => {
+    const t = 0.015;
+    const s = snap(t, 0.01);
+    expect(s).toEqual(0.01);
+  });
+
+  it('should snap to a presnapped value correctly', () => {
+    const t = 0.01;
+    const s = snap(t, 0.01);
+    expect(s).toEqual(0.01);
+  });
+
+  it('should compute an integral correctly', () => {
+    const store = createStore({
+      i: integral('myKey')
+    });
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    let sample = store.sample(0.25);
+    expect(Math.abs(sample.i - 0.03125)).toBeLessThan(epsilon);
+
+    sample = store.sample(0.5);
+    expect(Math.abs(sample.i - 0.125)).toBeLessThan(epsilon);
+
+    sample = store.sample(1);
+    expect(Math.abs(sample.i - 0.5)).toBeLessThan(epsilon);
   });
 });

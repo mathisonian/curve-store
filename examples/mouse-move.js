@@ -16,7 +16,6 @@ canvas.style.display = 'block';
 document.body.appendChild(canvas);
 const context = canvas.getContext('2d');
 
-
 // The start of the interesting part
 let time = 0;
 const store = createStore({

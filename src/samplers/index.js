@@ -1,4 +1,5 @@
-import { getPointBefore, getPointAfter } from '../utils';
+import { getPointBefore, getPointAfter, snap } from '../utils';
+import { isFunction, memoize } from 'lodash';
 
 const linear = (name) => {
   return (t, state) => {
@@ -18,17 +19,43 @@ const linear = (name) => {
 };
 
 const derivative = (name, delta) => {
+  delta = delta || 0.001;
+
   return (t, state, sample) => {
-    const delta = delta || 0.0001;
-
-    const x1 = sample(t - delta, name);
-    const x2 = sample(t, name);
-
+    let x1;
+    let x2;
+    if (isFunction(name)) {
+      x1 = name(t - delta, state, sample);
+      x2 = name(t, state, sample);
+    } else {
+      x1 = sample(t - delta, name);
+      x2 = sample(t, name);
+    }
     return (x2 - x1) / delta;
   };
 };
 
+const integral = (name, delta) => {
+  delta = delta || 0.01;
+
+  const recursiveIntegral = memoize((t, state, sample) => {
+    if (t === 0) {
+      return 0;
+    }
+
+    const snapped = snap(t, delta);
+    if (snapped === t) {
+      return (delta * (sample(t, name) + sample(t - delta, name)) / 2) + recursiveIntegral(t - delta, state, sample);
+    }
+
+    return ((t - snapped) * (sample(t, name) + sample(snapped, name)) / 2) + recursiveIntegral(snapped, state, sample);
+  });
+
+  return recursiveIntegral;
+};
+
 export {
   linear,
-  derivative
+  derivative,
+  integral
 };

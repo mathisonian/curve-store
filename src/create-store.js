@@ -1,4 +1,5 @@
 import { setAsLastPoint } from './utils';
+import { linear } from './samplers';
 
 export default (samplers) => {
   const state = {};
@@ -17,7 +18,7 @@ export default (samplers) => {
     const ret = {};
 
     if (typeof keys === 'string') {
-      return samplers[keys](time, state);
+      return (samplers[keys] || linear(keys))(time, state);
     }
 
     const checkKeys = Array.isArray(keys);
