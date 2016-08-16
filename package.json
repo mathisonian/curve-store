@@ -1,6 +1,6 @@
 {
   "name": "curve-store",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Redux-inspired store for dealing with continuous values",
   "main": "src/index.js",
   "scripts": {
