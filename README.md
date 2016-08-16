@@ -50,14 +50,22 @@ build out more complicated curves:
 
 ```js
 import { createStore } from 'curve-store';
-import { linear, derivative } from 'curve-store/samplers';
+import { linear, derivative, integral } from 'curve-store/samplers';
 
 const store = createStore({
-   x: linear('x'),
-   y: linear('y'),
-   velocityX: derivative('x'),
-   velocityY: derivative('y')
-})
+  position: {
+    x: linear('x'),
+    y: linear('y')
+  },
+  velocity: {
+    x: derivative('x'),
+    y: derivative('y')
+  },
+  distance: {
+    x: integral('x'),
+    y: integral('y')
+  }
+});
 ```
 
 You can also provide custom sampling functions, to get e.g. different easing curves

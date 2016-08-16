@@ -1,5 +1,20 @@
 import { setAsLastPoint } from './utils';
 import { linear } from './samplers';
+import { isArray, isObject, isFunction } from 'lodash';
+
+const runSampler = (sampler, time, state, sample) => {
+  if (isFunction(sampler)) {
+    return sampler(time, state, sample);
+  } else if (isArray(sampler)) {
+    return sampler.map((s) => { runSampler(s, time, state, sample); });
+  } else if (isObject(sampler)) {
+    const retObj = {};
+    Object.keys(sampler).forEach((key) => {
+      retObj[key] = runSampler(sampler[key], time, state, sample);
+    });
+    return retObj;
+  }
+};
 
 export default (samplers) => {
   const state = {};
@@ -18,14 +33,16 @@ export default (samplers) => {
     const ret = {};
 
     if (typeof keys === 'string') {
-      return (samplers[keys] || linear(keys))(time, state);
+      const s = isFunction(samplers[keys]) ? samplers[keys] : linear(keys);
+      return runSampler(s, time, state);
     }
 
-    const checkKeys = Array.isArray(keys);
+    const checkKeys = isArray(keys);
 
     Object.keys(samplers).forEach((samplerName) => {
       if (!checkKeys || keys.indexOf(samplerName)) {
-        ret[samplerName] = samplers[samplerName](time, state, sample);
+        const sampler = samplers[samplerName];
+        ret[samplerName] = runSampler(sampler, time, state, sample);
       }
     });
     return ret;

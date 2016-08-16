@@ -86,6 +86,22 @@ describe('curve-store tests', () => {
     expect(sample).toEqual({ myKey: 0.75 });
   });
 
+  it('should handle nested samplers', () => {
+    const store = createStore({
+      x: {
+        position: linear('x'),
+        velocity: derivative('x')
+      }
+    });
+
+    store.set(0, { x: 0 });
+    store.set(1, { x: 1 });
+
+    let sample = store.sample(0.25);
+    expect(sample.x.position).toEqual(0.25);
+    expect(Math.abs(sample.x.velocity - 1)).toBeLessThan(epsilon);
+  });
+
   it('should sample values correctly at points', () => {
     const store = createStore({
       myKey: linear('myKey')
