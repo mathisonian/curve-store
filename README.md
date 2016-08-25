@@ -61,6 +61,10 @@ const store = createStore({
     x: derivative('x'),
     y: derivative('y')
   },
+  acceleration: {
+    x: derivative(derivative('x')),
+    y: derivative(derivative('y'))
+  },
   distance: {
     x: integral('x'),
     y: integral('y')
