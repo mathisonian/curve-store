@@ -169,6 +169,23 @@ store.sample(0.25);
 // { myKey: customVal }
 ```
 
+### Clearing values
+
+```js
+// Empties the store.
+store.clear();
+```
+
+```js
+// Removes all values before time t
+store.clearBefore(t);
+```
+
+```js
+// Removes all values after time t
+stores.clearAfter(t);
+```
+
 ## LICENSE
 
 MIT

@@ -17,7 +17,23 @@ const runSampler = (sampler, time, state, sample) => {
 };
 
 export default (samplers) => {
-  const state = {};
+  let state = {};
+
+  const clear = () => {
+    state = {};
+  };
+
+  const clearBefore = (t) => {
+    Object.keys(state).forEach((key) => {
+      state[key] = state[key].filter(({ time }) => { return time >= t; });
+    });
+  };
+
+  const clearAfter = (t) => {
+    Object.keys(state).forEach((key) => {
+      state[key] = state[key].filter(({ time }) => { return time <= t; });
+    });
+  };
 
   const set = (time, values) => {
     Object.keys(values).forEach((key) => {
@@ -54,6 +70,9 @@ export default (samplers) => {
 
   return {
     set,
+    clear,
+    clearBefore,
+    clearAfter,
     sample,
     getState
   };

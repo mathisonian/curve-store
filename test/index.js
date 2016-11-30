@@ -170,4 +170,35 @@ describe('curve-store tests', () => {
     sample = store.sample(1);
     expect(Math.abs(sample.i - 0.5)).toBeLessThan(epsilon);
   });
+
+  it('should clear values correctly', () => {
+    const store = createStore({
+      d: derivative('myKey')
+    });
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    store.clear();
+    let state = store.getState();
+    expect(state).toEqual({});
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    store.clearBefore(0.5);
+    state = store.getState();
+    expect(state).toEqual({
+      myKey: [{ time: 1, value: 1 }]
+    });
+
+    store.set(0, { myKey: 0 });
+    store.set(1, { myKey: 1 });
+
+    store.clearAfter(0.5);
+    state = store.getState();
+    expect(state).toEqual({
+      myKey: [{ time: 0, value: 0 }]
+    });
+  });
 });
