@@ -1,5 +1,6 @@
 import { getPointBefore, getPointAfter, snap } from '../utils';
-import { isFunction, memoize } from 'lodash';
+import isFunction from 'lodash.isfunction';
+import memoize from 'lodash.memoize';
 
 const linear = (name) => {
   return (t, state) => {

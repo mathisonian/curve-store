@@ -1,4 +1,4 @@
-import { sortedIndexBy } from 'lodash';
+import sortedIndexBy from 'lodash.sortedindexby';
 
 const set = (array, time, value) => {
   const arrayObj = { time, value };

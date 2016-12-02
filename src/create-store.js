@@ -1,6 +1,8 @@
 import { setAsLastPoint } from './utils';
 import { linear } from './samplers';
-import { isArray, isObject, isFunction } from 'lodash';
+import isFunction from 'lodash.isfunction';
+import isObject from 'lodash.isobject';
+import isArray from 'lodash.isarray';
 
 const runSampler = (sampler, time, state, sample) => {
   if (isFunction(sampler)) {
