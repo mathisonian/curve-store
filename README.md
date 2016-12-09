@@ -21,8 +21,8 @@ some future time `t'`, and infer the points along the path.
 This is what `curve-store` gives you, a way to define state at a given time:
 
 ```js
-store.set(currentTime, { x: x, y: y});
-store.set(currentTime + 1000, { x: xprime, y: yprime});
+store.set(currentTime, { x: x, y: y });
+store.set(currentTime + 1000, { x: xprime, y: yprime });
 ```
 
 and a way to sample points in between:
